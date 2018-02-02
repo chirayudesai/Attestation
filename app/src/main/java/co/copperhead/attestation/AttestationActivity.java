@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -16,11 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -32,6 +38,7 @@ public class AttestationActivity extends AppCompatActivity {
     AsyncTask<Object, String, Void> task = null;
 
     TextView textView;
+    ImageView mView;
 
     Boolean mIsAuditor = false;
     Boolean mIsAuditee = false;
@@ -76,6 +83,8 @@ public class AttestationActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             textView.setText(savedInstanceState.getString(STATE_OUTPUT));
         }
+
+        mView = (ImageView) findViewById(R.id.imageview);
     }
 
     @Override
@@ -84,17 +93,26 @@ public class AttestationActivity extends AppCompatActivity {
         savedInstanceState.putString(STATE_OUTPUT, textView.getText().toString());
     }
 
+    private String repeatString(String s, int count){
+        StringBuilder r = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            r.append(s);
+        }
+        return r.toString();
+    }
+
     private void doItAuditee() {
         Log.d(TAG, "doItAuditee");
         // generate qr
+        String fingerprint = repeatString(Build.FINGERPRINT, 26);
+        String fingerprint64 = Base64.encodeToString(fingerprint.getBytes(), Base64.DEFAULT);
+        Log.d(TAG, "doItAuditee " + fingerprint64.length());
+        Bitmap bitmap = createQrCode(fingerprint64);
 
-        Bitmap bitmap = createQrCode(Build.FINGERPRINT);
-
-        ImageView view = (ImageView) findViewById(R.id.imageview);
-        view.setImageBitmap(bitmap);
+        mView.setImageBitmap(bitmap);
 
         // now tap to scan
-        view.setOnClickListener(new View.OnClickListener() {
+        mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Auditee qr view");
@@ -122,18 +140,18 @@ public class AttestationActivity extends AppCompatActivity {
         Bitmap bitmap = createQrCode(result + Build.FINGERPRINT);
 
         // show qr containing key
-        ImageView view = (ImageView) findViewById(R.id.imageview);
-        view.setImageBitmap(bitmap);
+        mView.setImageBitmap(bitmap);
     }
 
     private Bitmap createQrCode(String contents) {
         BitMatrix result;
         try {
-            // show qr, then scan on tap, then results
             QRCodeWriter writer = new QRCodeWriter();
-            int bigEnough = 256; // ???
-            result = writer.encode(contents, BarcodeFormat.QR_CODE, bigEnough,
-                    bigEnough, null);
+            Map<EncodeHintType,Object> hints = new EnumMap<>(EncodeHintType.class);
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            hints.put(EncodeHintType.QR_VERSION, 40);
+            result = writer.encode(contents, BarcodeFormat.QR_CODE, mView.getWidth(),
+                    mView.getWidth(), null);
         } catch (WriterException e) {
             return null;
         }
@@ -155,8 +173,8 @@ public class AttestationActivity extends AppCompatActivity {
 
     private void showQrScanner(String initiator) {
         IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.addExtra("initiator", initiator);
-        integrator.initiateScan();
+
+        integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

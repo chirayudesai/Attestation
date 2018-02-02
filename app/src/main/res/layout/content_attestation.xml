@@ -13,6 +13,25 @@
     tools:context="com.google.attestationexample.AttestationActivity"
     tools:showIn="@layout/activity_attestation">
 
+    <Button
+        android:id="@+id/auditee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textview"
+        android:layout_marginTop="140dp"
+        android:text="Auditee"
+        tools:layout_editor_absoluteY="55dp" />
+
+    <Button
+        android:id="@+id/auditor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="152dp"
+        android:text="Auditor" />
+
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
@@ -23,4 +42,9 @@
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
         android:scrollHorizontally="false" />
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

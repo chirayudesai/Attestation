@@ -1,10 +1,15 @@
 package co.copperhead.attestation;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
@@ -45,6 +50,8 @@ public class AttestationActivity extends AppCompatActivity {
     private static final int GENERATE_REQUEST_CODE = 0;
     private static final int VERIFY_REQUEST_CODE = 1;
     private static final int SCAN_REQUEST_CODE = 2;
+
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 10;
 
     private TextView textView;
     private ImageView mView;
@@ -225,10 +232,38 @@ public class AttestationActivity extends AppCompatActivity {
         return bitmap;
     }
 
+    private boolean hasCameraPermission() {
+        return ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
     private void showQrScanner(final String initiator) {
         Log.d(TAG, "showQrScanner: " + initiator);
 
-        startActivityForResult(new Intent(this, ScanActivity.class), SCAN_REQUEST_CODE);
+        if (!hasCameraPermission()) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_CAMERA);
+        } else {
+            startActivityForResult(new Intent(this, ScanActivity.class), SCAN_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startActivityForResult(new Intent(this, ScanActivity.class), SCAN_REQUEST_CODE);
+                } else {
+                    // App is basically unusable at this point. TODO: Show toast?
+                }
+            }
+        }
     }
 
     @Override

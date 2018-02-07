@@ -8,4 +8,5 @@
     <string name="generate_error">Error encountered generating attestation:\n\n</string>
     <string name="verify_error">Error encountered verifying attestation:\n\n</string>
     <string name="qr_code_scan_hint">Now scan this QR Code from the other device.</string>
+    <string name="error_camera_open">Failed to open camera.</string>
 </resources>

@@ -28,33 +28,8 @@
         android:id="@+id/camera_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-
-    <co.copperhead.attestation.scan.ScanWindowFrameLayout
-        android:id="@+id/window"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="64dp">
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:src="@drawable/scan"
-            android:alpha=".6"
-            />
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:indeterminate="true"
-            />
-    </co.copperhead.attestation.scan.ScanWindowFrameLayout>
+        >
+    </io.fotoapparat.view.CameraView>
 
     <TextView
         android:id="@+id/textview"
@@ -65,4 +40,5 @@
         android:textColor="@android:color/primary_text_dark"
         android:text="@string/error_camera_open"
         />
+
 </FrameLayout>

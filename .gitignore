@@ -9,3 +9,4 @@
 .externalNativeBuild
 signing.properties
 keystore.jks
+/.idea

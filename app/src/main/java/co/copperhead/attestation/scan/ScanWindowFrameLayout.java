@@ -40,13 +40,8 @@ public class ScanWindowFrameLayout extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // Ensure that this view is always a square.
-        if (widthMeasureSpec > heightMeasureSpec)
-            widthMeasureSpec = heightMeasureSpec;
-        else
-            heightMeasureSpec = widthMeasureSpec;
+        final int size = Math.min(heightMeasureSpec, widthMeasureSpec) * 3 / 4;
 
-        // final int size = Math.min(heightMeasureSpec, widthMeasureSpec) * 3 / 4;
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(size, size);
     }
 }

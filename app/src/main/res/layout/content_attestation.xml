@@ -24,6 +24,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/auditee_button"
+        android:textAllCaps="false"
         tools:layout_editor_absoluteY="55dp" />
 
     <Button
@@ -36,7 +37,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="152dp"
-        android:text="@string/auditor_button" />
+        android:text="@string/auditor_button"
+        android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/textview"

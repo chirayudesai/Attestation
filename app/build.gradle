@@ -35,8 +35,8 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.google.guava:guava:24.0-android'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.59'
-    implementation 'com.google.zxing:android-integration:3.3.0'
     implementation 'com.google.zxing:core:3.3.2'
+    implementation 'io.fotoapparat.fotoapparat:library:2.2.0'
 }
 
 def Properties props = new Properties()

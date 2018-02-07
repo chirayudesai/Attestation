@@ -7,4 +7,5 @@
     <string name="qrcode_content_description">QR code</string>
     <string name="generate_error">Error encountered generating attestation:\n\n</string>
     <string name="verify_error">Error encountered verifying attestation:\n\n</string>
+    <string name="error_camera_open">Failed to open camera.</string>
 </resources>

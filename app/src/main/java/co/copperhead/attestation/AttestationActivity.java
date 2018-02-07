@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -23,14 +22,14 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+
+import co.copperhead.attestation.scan.ScanActivity;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -45,6 +44,7 @@ public class AttestationActivity extends AppCompatActivity {
 
     private static final int GENERATE_REQUEST_CODE = 0;
     private static final int VERIFY_REQUEST_CODE = 1;
+    private static final int SCAN_REQUEST_CODE = 2;
 
     private TextView textView;
     private ImageView mView;
@@ -228,14 +228,7 @@ public class AttestationActivity extends AppCompatActivity {
     private void showQrScanner(final String initiator) {
         Log.d(TAG, "showQrScanner: " + initiator);
 
-        final DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
-        final int size = Math.min(displayMetrics.heightPixels, displayMetrics.widthPixels) * 3 / 4;
-
-        final IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.addExtra("SCAN_HEIGHT", size);
-        integrator.addExtra("SCAN_WIDTH", size);
-        integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+        startActivityForResult(new Intent(this, ScanActivity.class), SCAN_REQUEST_CODE);
     }
 
     @Override
@@ -262,12 +255,10 @@ public class AttestationActivity extends AppCompatActivity {
                 return;
             }
             textView.setText(intent.getStringExtra(VerifyAttestationService.EXTRA_OUTPUT));
-        } else {
-            final IntentResult scanResult =
-                    IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-            if (scanResult != null) {
+        } else if (requestCode == SCAN_REQUEST_CODE) {
+            if (intent != null) {
                 // handle scan result
-                final String contents = scanResult.getContents();
+                final String contents = intent.getStringExtra("SCAN_RESULT");
                 if (contents == null) {
                     if (mStage == Stage.Auditee) {
                         mStage = Stage.None;
@@ -293,7 +284,7 @@ public class AttestationActivity extends AppCompatActivity {
                     Log.w(TAG, "received unexpected scan result");
                 }
             } else {
-                Log.w(TAG, "scanResult null");
+                Log.w(TAG, "intent null");
             }
         }
     }

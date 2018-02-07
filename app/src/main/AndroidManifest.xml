@@ -19,6 +19,7 @@
         </activity>
         <service android:name=".GenerateAttestationService" />
         <service android:name=".VerifyAttestationService" />
+        <activity android:name=".scan.ScanActivity" />
     </application>
 
 </manifest>

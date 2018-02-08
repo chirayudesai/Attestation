@@ -2,11 +2,11 @@
     <string name="app_name">Attestation</string>
     <string name="action_settings">Settings</string>
     <string name="unsupported_auditee">Only Pixel 2 and Pixel 2 XL devices can be audited.</string>
-    <string name="auditor_button">Auditor</string>
-    <string name="auditee_button">Auditee</string>
+    <string name="auditor_button">Auditor (device performing verification)</string>
+    <string name="auditee_button">Auditee (device being verified)</string>
     <string name="qrcode_content_description">QR code</string>
     <string name="generate_error">Error encountered generating attestation:\n\n</string>
     <string name="verify_error">Error encountered verifying attestation:\n\n</string>
-    <string name="qr_code_scan_hint">Now scan this QR Code from the other device.</string>
+    <string name="qr_code_scan_hint">Now scan this QR Code from the other device.\nTap after scanning to proceed.</string>
     <string name="error_camera_open">Failed to open camera.</string>
 </resources>

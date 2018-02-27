@@ -13,4 +13,6 @@
     <string name="action_clear_auditee">Clear Auditee pairings</string>
     <string name="action_clear_auditor">Clear Auditor pairings</string>
     <string name="scanner_label">Scan QR code shown on the other device.</string>
+    <string name="auditee_hint">Press above button on the device being verified (Pixel 2 or Pixel 2 XL)</string>
+    <string name="auditor_hint">Press below button on the device performing verification (other device)</string>
 </resources>

@@ -55,6 +55,8 @@ public class AttestationActivity extends AppCompatActivity {
     private ImageView mView;
     private Button auditee;
     private Button auditor;
+    private TextView auditeeHint;
+    private TextView auditorHint;
 
     private enum Stage {
         None,
@@ -94,11 +96,16 @@ public class AttestationActivity extends AppCompatActivity {
             mStage = Stage.Auditor;
             auditee.setVisibility(View.GONE);
             auditor.setVisibility(View.GONE);
+            auditeeHint.setVisibility(View.GONE);
+            auditorHint.setVisibility(View.GONE);
             runAuditor();
         });
 
         textView = findViewById(R.id.textview);
         textView.setMovementMethod(new ScrollingMovementMethod());
+
+        auditeeHint = findViewById(R.id.textview_auditee_hint);
+        auditorHint = findViewById(R.id.textview_auditor_hint);
 
         mView = findViewById(R.id.imageview);
 
@@ -118,6 +125,8 @@ public class AttestationActivity extends AppCompatActivity {
                 if (mStage != Stage.None) {
                     auditee.setVisibility(View.GONE);
                     auditor.setVisibility(View.GONE);
+                    auditeeHint.setVisibility(View.GONE);
+                    auditorHint.setVisibility(View.GONE);
                     if (mStage == Stage.Auditee) {
                         runAuditee();
                     } else if (mStage == Stage.AuditeeResults) {
@@ -298,6 +307,8 @@ public class AttestationActivity extends AppCompatActivity {
                     mStage = Stage.AuditeeGenerate;
                     auditee.setVisibility(View.GONE);
                     auditor.setVisibility(View.GONE);
+                    auditeeHint.setVisibility(View.GONE);
+                    auditorHint.setVisibility(View.GONE);
                     continueAuditee(contentsBytes);
                 } else if (mStage == Stage.Auditor) {
                     mStage = Stage.AuditorResults;

@@ -20,13 +20,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_below="@+id/textview"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/auditee_button"
-        android:textAllCaps="false"
-        tools:layout_editor_absoluteY="55dp" />
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/auditor"
@@ -37,7 +36,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/auditor_button"
         android:textAllCaps="false" />
 
